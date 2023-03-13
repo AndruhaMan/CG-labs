@@ -1,0 +1,20 @@
+{
+  "name": "cg-labs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndruhaMan/CG-labs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AndruhaMan/CG-labs/issues"
+  },
+  "homepage": "https://github.com/AndruhaMan/CG-labs#readme"
+}
