@@ -28,4 +28,8 @@ module.exports = class Vector {
             this.z + vector.z
     )
     }
+
+    scalarMultiple(vector) {
+        return this.x * vector.x + this.y * vector.y + this.z * vector.z;
+    }
 }
