@@ -15,7 +15,7 @@ const camera = new Camera(width / 2, height / 2, -20);
 
 
 function castRay(x, y) {
-    const px = ((2 * (x + 0.5)) / width - 1) * Math.tan(fov / 2) * aspectRatio;
+    const px = - ((2 * (x + 0.5)) / width - 1) * Math.tan(fov / 2) * aspectRatio;
     const py = (1 - (2 * (y + 0.5)) / height) * Math.tan(fov / 2);
     const rayDirection = new Vector(px, py, -1).normalize();
     const ray = new Ray(camera, rayDirection);
