@@ -8,10 +8,9 @@ const width = 100;
 const height = 100;
 const fov = Math.PI / 2;
 const aspectRatio = width / height;
-const canvas = new Array(width * height);
 
 const sphere = new Sphere(new Point(50, 50, 4), 3);
-const camera = new Point(width / 2, height / 2, -20);
+const camera = new Camera(width / 2, height / 2, -20);
 
 
 
