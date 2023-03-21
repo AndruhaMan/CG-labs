@@ -3,14 +3,17 @@ const Ray = require("./Objects/Ray");
 const Point = require("./Objects/Point");
 const Vector = require("./Objects/Vector");
 const Camera = require("./Objects/Camera");
+const Light = require("./Objects/Light");
 
 const width = 100;
 const height = 100;
 const fov = Math.PI / 2;
 const aspectRatio = width / height;
+const printingSymbols = ["  ", ". ", "* ", "O ", "# "];
 
-const sphere = new Sphere(new Point(50, 50, 4), 3);
+const sphere = new Sphere(new Point(50, 50, 4), 10);
 const camera = new Camera(width / 2, height / 2, -20);
+const light = new Light(new Vector(-1, -1, 1));
 
 
 
@@ -21,15 +24,24 @@ function castRay(x, y) {
     const ray = new Ray(camera, rayDirection);
     return sphere.sphereIntersect(ray);
 }
+function printSymbol(scalarMul) {
+    if(scalarMul <= 0) return printingSymbols[0];
+    if(scalarMul > 0 && scalarMul <= 0.2) return printingSymbols[1];
+    if(scalarMul > 0.2 && scalarMul <= 0.5) return printingSymbols[2];
+    if(scalarMul > 0.5 && scalarMul <= 0.8) return printingSymbols[3];
+    if(scalarMul > 0.8) return printingSymbols[4];
+}
 
 for (let y = height - 1; y >= 0; y--) {
   for (let x = 0; x < width; x++) {
-      if (castRay(x, y)) {
-          process.stdout.write("# ");
+      const intersectNormal = castRay(x, y);
+      if(intersectNormal){
+          const scalarMul = light.scalarMultiple(intersectNormal);
+          process.stdout.write(printSymbol(scalarMul));
       } else {
-          process.stdout.write(". ");
+          process.stdout.write("  ");
       }
-  }
-  process.stdout.write("\n");
-  }
 
+  }
+    process.stdout.write("\n");
+}
