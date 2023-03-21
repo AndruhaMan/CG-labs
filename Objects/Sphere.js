@@ -1,3 +1,5 @@
+const Normal = require("./Normal");
+
 module.exports = class Sphere {
   constructor(center, radius) {
     this.center = center; //Point
@@ -12,7 +14,9 @@ module.exports = class Sphere {
       const t1 = (-b + Math.sqrt(discrim)) / 2;
       const t2 = (-b - Math.sqrt(discrim)) / 2;
       if (t1 < 0 && t2 < 0) {
-        return true;
+        const t = Math.min(t1, t2);
+        const intersectPoint = ray.origin.toVector().add(ray.direction.numberMultiple(t));
+        return new Normal(intersectPoint.subtract(this.center));
       }
     }
   }
