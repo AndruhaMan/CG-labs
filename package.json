@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/AndruhaMan/CG-labs/issues"
   },
-  "homepage": "https://github.com/AndruhaMan/CG-labs#readme"
+  "scripts":{
+    "start": "node index.js",
+    "test": "node test.js"
+  },
+  "homepage": "https://github.com/AndruhaMan/CG-labs#readme" 
 }
