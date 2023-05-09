@@ -3,6 +3,7 @@ const Point = require("./Objects/Point");
 const Vector = require("./Objects/Vector");
 const Camera = require("./Objects/Camera");
 const Light = require("./Objects/Light");
+const Normal = require("./Objects/Normal");
 const Screen = require("./Objects/Screen");
 const Intersection = require("./Objects/Intersection");
 const Pixel = require("./Objects/Pixel");
@@ -10,6 +11,8 @@ const Image = require("./Objects/Image");
 const ImageOutput = require("./Objects/ImageOutput");
 const Triangle = require("./Objects/Triangle");
 const ObjReader = require("./Objects/ObjReader");
+const Plane = require("./Objects/Plane");
+const Ray = require("./Objects/Ray");
 
 const screen = new Screen(100, 100, Math.PI / 2);
 const sphere1 = new Sphere(new Point(50, 50, 4), 10);
@@ -24,15 +27,22 @@ const image = new Image(
 )
 
 const objects = ObjReader.readObj("cow.obj", screen);
+let lowerPoint = Infinity;
+let plane;
+for(let triangle of objects) {
+    lowerPoint = Math.min(lowerPoint, triangle.vert1.y, triangle.vert2.y, triangle.vert3.y);
+    plane = new Plane(new Vector(0, 1, 0), new Point(0, lowerPoint, 0));
+}
+objects.push(plane);
 
 for (let y = screen.height - 1; y >= 0; y--) {
-  for (let x = 0; x < screen.width; x++) {
-      const intersection = getNearestIntersection(objects, x, y);
-      choosePixelColor(x, y, intersection)
-  }
+    for (let x = 0; x < screen.width; x++) {
+        const intersection = getNearestIntersection(objects, x, y);
+        choosePixelColor(x, y, intersection)
+    }
 }
 
-ImageOutput.fileLog(image, "cow");
+ImageOutput.consoleLog(image, "cow");
 
 function getNearestIntersection(objects, x, y) {
     const ray = camera.getRay(screen, x, y);
