@@ -10,7 +10,10 @@ class ObjReader {
         for (let string of fileContent.split("\r\n")) {
             if(string[0] === "v" && string[1] === " ") {
                 const coordinates = string.split(" ").slice(1);
-                listOfPoints.push(new Point(parseFloat(coordinates[0]) * screen.width/10 + screen.width/2, parseFloat(coordinates[2]) * screen.width/10 + screen.width/2, (-parseFloat(coordinates[1]) * screen.width/10 - screen.width/8)));
+                listOfPoints.push(new Point(
+                    parseFloat(coordinates[0]) * screen.width/10 + screen.width/2,
+                    parseFloat(coordinates[2]) * screen.width/10 + screen.width/2,
+                    -parseFloat(coordinates[1]) * screen.width/10 - screen.width/8));
             }
             if(string[0] === "f") {
                 const points = string.split(" ").slice(1).map((value) => value.split("/")[0]);

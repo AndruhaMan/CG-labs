@@ -3,26 +3,27 @@ const Point = require("./Objects/Point");
 const Vector = require("./Objects/Vector");
 const Camera = require("./Objects/Camera");
 const Light = require("./Objects/Light");
-const Normal = require("./Objects/Normal");
 const Screen = require("./Objects/Screen");
 const Intersection = require("./Objects/Intersection");
 const Pixel = require("./Objects/Pixel");
 const Image = require("./Objects/Image");
 const ImageOutput = require("./Objects/ImageOutput");
+const Triangle = require("./Objects/Triangle");
+const ObjReader = require("./Objects/ObjReader");
 
 const screen = new Screen(100, 100, Math.PI / 2);
 const sphere1 = new Sphere(new Point(50, 50, 4), 10);
 const sphere2 = new Sphere(new Point(70, 60, 20), 10);
-const camera = new Camera(screen.width / 2, screen.height / 2, -20);
-const light = new Light(new Vector(-1, 1, -1));
+const triangle = new Triangle(new Point(30, 40, 10), new Point(30, 60, 10), new Point(50, 50, 1));
+const camera = new Camera(screen.width / 2, screen.height / 2, -screen.width / 5);
+const light = new Light(new Vector(1, 1, -1));
 const image = new Image(
     screen.width,
     screen.height,
     new Array(screen.height).fill(null).map(() => new Array(screen.width).fill(null).map(() => new Pixel({r: 0, g: 0, b: 0}, -1)))
 )
 
-const objects = [sphere2, sphere1]
-
+const objects = ObjReader.readObj("cow.obj", screen);
 
 for (let y = screen.height - 1; y >= 0; y--) {
   for (let x = 0; x < screen.width; x++) {
@@ -31,7 +32,7 @@ for (let y = screen.height - 1; y >= 0; y--) {
   }
 }
 
-ImageOutput.consoleLog(image);
+ImageOutput.fileLog(image, "cow");
 
 function getNearestIntersection(objects, x, y) {
     const ray = camera.getRay(screen, x, y);
