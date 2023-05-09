@@ -3,7 +3,6 @@ const Point = require("./Objects/Point");
 const Vector = require("./Objects/Vector");
 const Camera = require("./Objects/Camera");
 const Light = require("./Objects/Light");
-const Normal = require("./Objects/Normal");
 const Screen = require("./Objects/Screen");
 const Intersection = require("./Objects/Intersection");
 const Pixel = require("./Objects/Pixel");
@@ -66,8 +65,30 @@ function getNearestIntersection(objects, x, y) {
 
 function choosePixelColor(x, y, intersection) {
     if(intersection.intersectionPoint) {
-        const normal = intersection.object.getNorm(intersection.intersectionPoint);
-        image.pixels[y][x].intensity = light.scalarMultiple(normal);
+        if(!isShadow(intersection.intersectionPoint)) {
+            const normal = intersection.object.getNorm(intersection.intersectionPoint);
+            image.pixels[y][x].intensity = light.scalarMultiple(normal);
+        } else {
+            image.pixels[y][x].intensity = 0
+        }
         image.pixels[y][x].setGrayColor();
     }
+}
+
+function isShadow(point) {
+    if(point.y === lowerPoint) {
+        const ray = new Ray(point, point.normalize().subtract(light.numberMultiple(-1)));
+        return !!getFastIntersection(ray);
+    }
+}
+
+function getFastIntersection(ray) {
+    for (let object of objects) {
+        const intersection = object.intersect(ray);
+        if(!intersection || !Triangle.prototype.isPrototypeOf(object)) {
+            continue;
+        }
+        return new Intersection(intersection, object);
+    }
+    return null;
 }
