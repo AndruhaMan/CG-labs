@@ -32,12 +32,24 @@ module.exports = class Vector {
     scalarMultiple(vector) {
         return this.x * vector.x + this.y * vector.y + this.z * vector.z;
     }
-	
+
+    cross(vector) {
+        return new Vector(
+            this.y * vector.z - this.z * vector.y,
+            this.z * vector.x - this.x * vector.z,
+            this.x * vector.y - this.y * vector.x
+        )
+    }
+
 	numberMultiple(num) {
         return new Vector(
             this.x * num,
             this.y * num,
             this.z * num
         )
+    }
+
+    toVector() {
+        return new Vector(this.x, this.y, this.z)
     }
 }
