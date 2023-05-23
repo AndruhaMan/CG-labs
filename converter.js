@@ -21,6 +21,8 @@ try {
 function readFile(filename, inputFormat) {
     if(inputFormat === "ppm") {
         image = ImageReader.readPPM(filename);
+    } else if(inputFormat === "bmp") {
+        image = ImageReader.readBMP(filename);
     } else {
         throw new Error("We does not support this input format");
     }

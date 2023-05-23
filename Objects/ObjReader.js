@@ -4,7 +4,7 @@ const Triangle = require("./Triangle");
 
 class ObjReader {
     readObj(filename, screen) {
-        const fileContent = fs.readFileSync(filename, "utf-8");
+        const fileContent = fs.readFileSync(`Input/${filename}.obj`, "utf-8");
         let listOfPoints = [];
         let triangles = [];
         for (let string of fileContent.split("\r\n")) {

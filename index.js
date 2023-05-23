@@ -7,7 +7,7 @@ const Screen = require("./Objects/Screen");
 const Intersection = require("./Objects/Intersection");
 const Pixel = require("./Objects/Pixel");
 const Image = require("./Objects/Image");
-const ImageOutput = require("./Objects/ImageOutput");
+const ImageWriter = require("./Objects/ImageWriter");
 const Triangle = require("./Objects/Triangle");
 const ObjReader = require("./Objects/ObjReader");
 const Plane = require("./Objects/Plane");
@@ -25,7 +25,7 @@ const image = new Image(
     new Array(screen.height).fill(null).map(() => new Array(screen.width).fill(null).map(() => new Pixel({r: 0, g: 0, b: 0}, -1)))
 )
 
-const objects = ObjReader.readObj("cow.obj", screen);
+const objects = ObjReader.readObj("cow", screen);
 let lowerPoint = Infinity;
 let plane;
 for(let triangle of objects) {
@@ -41,7 +41,7 @@ for (let y = screen.height - 1; y >= 0; y--) {
     }
 }
 
-ImageOutput.consoleLog(image, "cow");
+ImageWriter.writeConsole(image, "cow");
 
 function getNearestIntersection(objects, x, y) {
     const ray = camera.getRay(screen, x, y);
