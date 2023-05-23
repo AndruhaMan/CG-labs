@@ -21,7 +21,7 @@ try {
 function readFile(filename, inputFormat) {
     if(inputFormat === "ppm") {
         image = ImageReader.readPPM(filename);
-    } else if(inputFormat === "bmp") {
+    } else if (inputFormat === "bmp") {
         image = ImageReader.readBMP(filename);
     } else {
         throw new Error("We does not support this input format");
@@ -33,6 +33,8 @@ function writeFile(filename, goalFormat) {
         ImageWriter.writePPM(image, filename);
     } else if (goalFormat === "console") {
         ImageWriter.writeConsole(image);
+    } else if (goalFormat === "bmp") {
+        ImageWriter.writeBMP(image, filename);
     } else {
         throw new Error("We does not support this goal format");
     }
