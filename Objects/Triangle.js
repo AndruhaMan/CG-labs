@@ -34,6 +34,10 @@ module.exports = class Triangle {
         }
         let t = edge2.scalarMultiple(qvec) * invDet;
         const intersectPoint = ray.origin.toVector().add(ray.direction.numberMultiple(t));
-        return intersectPoint;
+        if (intersectPoint !== ray.origin.toVector()) return intersectPoint;
+    }
+
+    getLowerPoint() {
+        return Math.min(this.vert1.y, this.vert2.y, this.vert3.y);
     }
 };

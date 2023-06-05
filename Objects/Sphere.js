@@ -25,4 +25,8 @@ module.exports = class Sphere {
     }
     return null;
   }
+
+  getLowerPoint() {
+    return this.center.y - this.radius;
+  }
 };

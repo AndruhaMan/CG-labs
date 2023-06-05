@@ -12,7 +12,8 @@ module.exports = class Plane {
             const dif = this.origin.subtract(ray.origin);
             const t = dif.scalarMultiple(this.normal) / d;
             if (t <= 0) {
-                return ray.origin.toVector().add(ray.direction.numberMultiple(t));
+                const intersectPoint = ray.origin.toVector().add(ray.direction.numberMultiple(t));
+                if (intersectPoint.y !== ray.origin.y) return intersectPoint;
             }
         }
 
@@ -21,5 +22,9 @@ module.exports = class Plane {
 
     getNorm() {
         return this.normal;
+    }
+
+    getLowerPoint() {
+        return this.origin.y;
     }
 }

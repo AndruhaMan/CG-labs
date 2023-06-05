@@ -1,4 +1,3 @@
-const Sphere = require("./Objects/Sphere");
 const Point = require("./Objects/Point");
 const Vector = require("./Objects/Vector");
 const Camera = require("./Objects/Camera");
@@ -8,7 +7,6 @@ const Intersection = require("./Objects/Intersection");
 const Pixel = require("./Objects/Pixel");
 const Image = require("./Objects/Image");
 const ImageWriter = require("./Objects/ImageWriter");
-const Triangle = require("./Objects/Triangle");
 const ObjReader = require("./Objects/ObjReader");
 const Plane = require("./Objects/Plane");
 const Ray = require("./Objects/Ray");
@@ -26,13 +24,9 @@ const image = new Image(
 )
 
 const objects = ObjReader.readObj("cow", screen);
-let lowerPoint = Infinity;
-let plane;
-for(let triangle of objects) {
-    lowerPoint = Math.min(lowerPoint, triangle.vert1.y, triangle.vert2.y, triangle.vert3.y);
-    plane = new Plane(new Vector(0, 1, 0), new Point(0, lowerPoint, 0));
-}
-objects.push(plane);
+
+const lowerPoint = findLowerPoint(objects);
+objects.push(new Plane(new Vector(0, 1, 0), new Point(0, lowerPoint, 0)));
 
 for (let y = screen.height - 1; y >= 0; y--) {
     for (let x = 0; x < screen.width; x++) {
@@ -41,7 +35,8 @@ for (let y = screen.height - 1; y >= 0; y--) {
     }
 }
 
-ImageWriter.writeConsole(image, "cow");
+ImageWriter.writeFile(image, output, goalFormat);
+
 
 function getNearestIntersection(objects, x, y) {
     const ray = camera.getRay(screen, x, y);
@@ -77,7 +72,7 @@ function choosePixelColor(x, y, intersection) {
 
 function isShadow(point) {
     if(point.y === lowerPoint) {
-        const ray = new Ray(point, point.normalize().subtract(light.numberMultiple(-1)));
+        const ray = new Ray(point, light.numberMultiple(-1).subtract(point.normalize()));
         return !!getFastIntersection(ray);
     }
 }
@@ -91,4 +86,13 @@ function getFastIntersection(ray) {
         return new Intersection(intersection, object);
     }
     return null;
+}
+
+function findLowerPoint(objects) {
+    let lowerPoint = Infinity;
+    for(let object of objects) {
+        lowerPoint = Math.min(object.getLowerPoint(), lowerPoint);
+    }
+
+    return lowerPoint;
 }
