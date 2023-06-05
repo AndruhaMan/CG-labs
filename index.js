@@ -11,19 +11,34 @@ const ObjReader = require("./Objects/ObjReader");
 const Plane = require("./Objects/Plane");
 const Ray = require("./Objects/Ray");
 
+const source = process.env.npm_config_source;
+const scene = process.env.npm_config_scene;
+const output = process.env.npm_config_output;
+const goalFormat = output.split('.')[1];
+
 const screen = new Screen(100, 100, Math.PI / 2);
-const sphere1 = new Sphere(new Point(50, 50, 4), 10);
-const sphere2 = new Sphere(new Point(70, 60, 20), 10);
-const triangle = new Triangle(new Point(30, 40, 10), new Point(30, 60, 10), new Point(50, 50, 1));
-const camera = new Camera(screen.width / 2, screen.height / 2, -screen.width / 5);
-const light = new Light(new Vector(1, 1, -1));
+process.env.WIDTH = screen.width;
+process.env.HEIGHT = screen.height;
 const image = new Image(
     screen.width,
     screen.height,
     new Array(screen.height).fill(null).map(() => new Array(screen.width).fill(null).map(() => new Pixel({r: 0, g: 0, b: 0}, -1)))
 )
+let camera;
+let light;
+let objects;
+let scene_objects;
 
-const objects = ObjReader.readObj("cow", screen);
+if (source) {
+    camera = new Camera(screen.width / 2, screen.height / 2, -screen.width / 5);
+    light = new Light(new Vector(1, 1, -1));
+    objects = ObjReader.readObj(source, screen);
+} else if (scene) {
+    scene_objects = require(`./Input/${scene}`);
+    camera = scene_objects.camera;
+    light = scene_objects.light;
+    objects = scene_objects.objects;
+}
 
 const lowerPoint = findLowerPoint(objects);
 objects.push(new Plane(new Vector(0, 1, 0), new Point(0, lowerPoint, 0)));
@@ -80,7 +95,7 @@ function isShadow(point) {
 function getFastIntersection(ray) {
     for (let object of objects) {
         const intersection = object.intersect(ray);
-        if(!intersection || !Triangle.prototype.isPrototypeOf(object)) {
+        if(!intersection) {
             continue;
         }
         return new Intersection(intersection, object);
