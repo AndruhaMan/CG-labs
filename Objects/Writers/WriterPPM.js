@@ -11,4 +11,8 @@ module.exports = class WriterPPM {
         fs.writeFileSync(`Output/${filename}.ppm`, fileContent);
         console.log('File created!');
     }
+
+    canWrite(format) {
+        return format === "ppm";
+    }
 }

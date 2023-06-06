@@ -38,4 +38,8 @@ module.exports = class WriterBMP {
         fs.writeFileSync(`Output/${filename}.bmp`, buffer);
         console.log('File created!');
     }
+
+    canWrite(format) {
+        return format === "bmp";
+    }
 }

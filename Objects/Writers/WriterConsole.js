@@ -7,4 +7,8 @@ module.exports = class WriterConsole {
             process.stdout.write("\n");
         }
     }
+
+    canWrite(format) {
+        return format === "console";
+    }
 }

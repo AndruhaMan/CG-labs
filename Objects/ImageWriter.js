@@ -1,15 +1,13 @@
 module.exports = class ImageWriter {
+    constructor(...plugins) {
+        this.plugins = plugins;
+    }
+
     writeFile(image, sourceFile, goalFormat) {
         const filename = sourceFile.split(".")[0];
-        let Writer;
-        if (goalFormat === "ppm") {
-            Writer = require("./Writers/WriterPPM");
-        } else if (goalFormat === "bmp") {
-            Writer = require("./Writers/WriterBMP");
-        } else if (goalFormat === "console") {
-            Writer = require("./Writers/WriterConsole");
-        } else throw new Error("We don't support this goal format")
-        const writer = new Writer();
-        writer.write(image, filename);
+        for (let writer of this.plugins) {
+            if(writer.canWrite(goalFormat)) return writer.write(image, filename);
+        }
+        throw new Error("We don't support this goal format")
     }
 }

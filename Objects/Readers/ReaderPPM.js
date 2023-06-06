@@ -29,4 +29,9 @@ module.exports = class ReaderPPM {
         const pixels = this.turn1DArrayTo2D(formatPixels, width, height);
         return new Image(width, height, pixels);
     }
+
+    canRead(content) {
+        const format = content.subarray(0, 2).toString();
+        return format === "P3";
+    }
 }

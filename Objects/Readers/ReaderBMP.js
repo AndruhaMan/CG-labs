@@ -27,4 +27,9 @@ module.exports = class ReaderBMP {
 
         return new Image(width, height, pixels);
     }
+
+    canRead(content) {
+        const format = content.subarray(0, 2).toString();
+        return format === "BM";
+    }
 }

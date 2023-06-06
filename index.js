@@ -4,9 +4,15 @@ const Image = require("./Objects/Image");
 const ImageWriter = require("./Objects/ImageWriter");
 const ObjReader = require("./Objects/ObjReader");
 const Tracer = require("./Objects/Tracer");
+const WriterPPM = require("./Objects/Writers/WriterPPM");
+const WriterBMP = require("./Objects/Writers/WriterBMP");
+const WriterConsole = require("./Objects/Writers/WriterConsole");
 
 const objReader = new ObjReader();
-const imageWriter = new ImageWriter();
+const writerPPM = new WriterPPM();
+const writerBMP = new WriterBMP();
+const writerConsole = new WriterConsole();
+const imageWriter = new ImageWriter(writerConsole, writerBMP, writerPPM);
 const screen = new Screen(100, 100, Math.PI / 2);
 process.env.WIDTH = screen.width;
 process.env.HEIGHT = screen.height;
