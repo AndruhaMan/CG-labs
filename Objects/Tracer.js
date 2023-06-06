@@ -1,11 +1,13 @@
 const Camera = require("./Camera");
-const VectorLight = require("./VectorLight");
 const Vector = require("./Vector");
 const Plane = require("./Plane");
 const Point = require("./Point");
 const Intersection = require("./Intersection");
 const Ray = require("./Ray");
+const VectorLight = require("./VectorLight");
 const PointLight = require("./PointLight");
+const AmbientLight = require("./AmbientLight");
+
 module.exports = class Tracer {
     constructor(objReader, imageWriter, screen, image) {
         this.objReader = objReader;
@@ -27,6 +29,7 @@ module.exports = class Tracer {
         if (source) {
             camera = new Camera(this.screen.width / 2, this.screen.height / 2, -this.screen.width / 5);
             lights = [
+                new AmbientLight(0.1, {r: 219, g: 69, b: 73}),
                 new PointLight(0, this.screen.height, -this.screen.width / 5, 0.5, {r: 219, g: 69, b: 73}),
                 new PointLight(this.screen.width * 0.8, this.screen.height, -this.screen.width / 5, 0.9, {r: 219, g: 232, b: 73})];
             objects = this.objReader.readObj(source, this.screen);
@@ -89,6 +92,8 @@ module.exports = class Tracer {
                         colorIntensity = light.subtract(intersection.intersectionPoint).normalize().scalarMultiple(normal);
                     } else if (light.constructor.name === "VectorLight") {
                         colorIntensity = light.scalarMultiple(normal);
+                    } else if (light.constructor.name === "AmbientLight") {
+                        colorIntensity = 1;
                     }
                     if (colorIntensity < 0) colorIntensity = 0;
                     else if (colorIntensity > 1) colorIntensity = 1;
@@ -115,8 +120,13 @@ module.exports = class Tracer {
         if(point.y === lowerPoint) {
             let isShadow = true;
             for (let light of lights) {
-                const ray = new Ray(point, light.numberMultiple(-1).subtract(point.normalize()));
-                if (!this.getFastIntersection(ray, objects)) isShadow = false;
+                if (light.constructor.name === "PointLight" || light.constructor.name === "VectorLight") {
+                    const ray = new Ray(point, light.numberMultiple(-1).subtract(point.normalize()));
+                    if (!this.getFastIntersection(ray, objects)) isShadow = false;
+                } else if (light.constructor.name === "AmbientLight") {
+                    isShadow = false;
+                }
+
             }
             return isShadow;
         }
