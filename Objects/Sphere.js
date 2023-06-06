@@ -1,4 +1,3 @@
-const Point = require("./Point");
 const Normal = require("./Normal");
 module.exports = class Sphere {
 
@@ -19,8 +18,7 @@ module.exports = class Sphere {
       const t2 = (-b - Math.sqrt(discrim)) / 2;
       if (t1 < 0 && t2 < 0) {
         const t = Math.max(t1, t2);
-        const intersectPoint = ray.origin.toVector().add(ray.direction.numberMultiple(t));
-        return intersectPoint;
+        return ray.origin.toVector().add(ray.direction.numberMultiple(t));
       }
     }
     return null;

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "node test.js",
-    "converter": "node converter.js"
+    "converter": "node converterIndex.js"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,5 @@
   "bugs": {
     "url": "https://github.com/AndruhaMan/CG-labs/issues"
   },
-  "homepage": "https://github.com/AndruhaMan/CG-labs#readme" 
+  "homepage": "https://github.com/AndruhaMan/CG-labs#readme"
 }

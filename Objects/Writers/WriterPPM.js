@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-class WriterPPM {
+module.exports = class WriterPPM {
     write(image, filename) {
         let fileContent = `P3\n${image.width} ${image.height}\n255\n`;
         for (let y = image.height - 1; y >= 0; y--) {
@@ -12,4 +12,3 @@ class WriterPPM {
         console.log('File created!');
     }
 }
-module.exports = new WriterPPM();

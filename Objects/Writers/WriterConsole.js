@@ -1,4 +1,4 @@
-class WriterConsole {
+module.exports = class WriterConsole {
     write(image) {
         for (let y = image.height - 1; y >= 0; y--) {
             for(let x = 0; x < image.width; x++) {
@@ -8,5 +8,3 @@ class WriterConsole {
         }
     }
 }
-
-module.exports = new WriterConsole();

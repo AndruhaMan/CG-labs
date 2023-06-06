@@ -2,7 +2,7 @@ const fs = require("fs");
 const Point = require("./Point");
 const Triangle = require("./Triangle");
 
-class ObjReader {
+module.exports = class ObjReader {
     readObj(filename, screen) {
         const fileContent = fs.readFileSync(`Input/${filename}`, "utf-8");
         let listOfPoints = [];
@@ -27,5 +27,3 @@ class ObjReader {
         return triangles;
     }
 }
-
-module.exports = new ObjReader();

@@ -1,6 +1,3 @@
-const Vector = require("./Vector");
-const Ray = require("./Ray");
-
 module.exports = class Screen {
 
     constructor(width, height, fov) {

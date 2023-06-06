@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-class WriterBMP {
+module.exports = class WriterBMP {
     write(image, filename) {
         const rowPaddingSize = (4 - ((image.width * (24 / 8)) % 4)) % 4;
         const fileSize = 14 + 40 + (image.height * (image.width * (24 / 8) + rowPaddingSize));
@@ -39,5 +39,3 @@ class WriterBMP {
         console.log('File created!');
     }
 }
-
-module.exports = new WriterBMP();

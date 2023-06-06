@@ -1,7 +1,7 @@
 const Pixel = require("../Pixel");
 const Image = require("../Image");
 
-class ReaderBMP {
+module.exports = class ReaderBMP {
     read(content) {
         const pixelDataOffset = content.readUInt32LE(10);
         const width = content.readInt32LE(18);
@@ -28,5 +28,3 @@ class ReaderBMP {
         return new Image(width, height, pixels);
     }
 }
-
-module.exports = new ReaderBMP();

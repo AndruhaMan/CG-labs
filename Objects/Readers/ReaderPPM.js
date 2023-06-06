@@ -1,7 +1,7 @@
 const Pixel = require("../Pixel");
 const Image = require("../Image");
 
-class ReaderPPM {
+module.exports = class ReaderPPM {
     turn1DArrayTo2D(array, width, height) {
         let result = [];
         let temp = [];
@@ -30,5 +30,3 @@ class ReaderPPM {
         return new Image(width, height, pixels);
     }
 }
-
-module.exports = new ReaderPPM();
