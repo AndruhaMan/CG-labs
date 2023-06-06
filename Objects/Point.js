@@ -14,6 +14,15 @@ module.exports = class Point {
             this.z - point.z
         );
     }
+
+    numberMultiple(num) {
+        return new Point(
+            this.x * num,
+            this.y * num,
+            this.z * num
+        )
+    }
+
     toVector() {
         return new Vector(this.x, this.y, this.z)
     }
